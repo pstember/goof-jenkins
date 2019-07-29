@@ -12,5 +12,10 @@ pipeline {
         sh 'npm install'
       }
     }
+    stage('') {
+      steps {
+        snykSecurity(failOnIssues: true)
+      }
+    }
   }
 }
