@@ -1,20 +1,30 @@
 pipeline {
   agent {
-    docker {
+    any {
       args '-p 3000:3000'
       image 'node:12.7.0-alpine'
     }
 
   }
   stages {
-    stage('Node') {
+    stage('Build') {
       steps {
-        sh 'npm install'
+        echo 'Building...'
       }
     }
-    stage('Snyk') {
+    stage('Test') {
       steps {
-        snykSecurity(failOnIssues: true, snykInstallation: 'Snyk')
+        echo 'Testing...'
+        snykSecurity(
+          snykInstallation: 'snyk',
+          snykTokenId: 'snyk-pipeline',
+          // place other parameters here
+        )
+      }
+    }
+    stage('Deploy') {
+      steps {
+        echo 'Deploying...'
       }
     }
   }
